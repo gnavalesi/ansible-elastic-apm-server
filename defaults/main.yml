@@ -1,0 +1,39 @@
+---
+
+apm_server_prereq:
+  - apt-transport-https
+
+apm_server_version: 6.4.0
+
+# The apt repo URL pegs minor versions (e.g. 6.x) to avoid unexpected upgrades
+apm_server_major_version_abbreviated: "{{ apm_server_version | regex_replace('^(\\d).*$', '\\1.x') }}"
+
+# Elastic's apm server debian repository
+apm_server_elastic_repo_url: "deb https://artifacts.elastic.co/packages/{{ apm_server_major_version_abbreviated }}/apt stable main"
+
+apm_server_conf_apm_server_host: localhost:8200
+apm_server_conf_setup_template_settings_index_number_of_shards: 1
+apm_server_conf_setup_template_settings_index_codec: best_compression
+apm_server_conf_output_elasticsearch_hosts: ["localhost:9200"]
+apm_server_conf_output_elasticsearch_indices:
+- index: "apm-%{[beat.version]}-sourcemap"
+  when.contains:
+    processor.event: "sourcemap"
+
+- index: "apm-%{[beat.version]}-error-%{+yyyy.MM.dd}"
+  when.contains:
+    processor.event: "error"
+
+- index: "apm-%{[beat.version]}-transaction-%{+yyyy.MM.dd}"
+  when.contains:
+    processor.event: "transaction"
+
+- index: "apm-%{[beat.version]}-span-%{+yyyy.MM.dd}"
+  when.contains:
+    processor.event: "span"
+
+- index: "apm-%{[beat.version]}-metric-%{+yyyy.MM.dd}"
+  when.contains:
+    processor.event: "metric"
+
+apm_server_conf_logging_metrics_enabled: false

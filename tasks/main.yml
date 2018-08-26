@@ -1,0 +1,32 @@
+---
+
+- name: Add ElasticSearch apt key
+  shell: wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+
+- name: Install APM Server pre-req software
+  apt:
+    name: "{{ item }}"
+  with_items: "{{ apm_server_prereq }}"
+
+- name: Add Elastic apt repository.
+  apt_repository:
+    repo: "{{ apm_server_elastic_repo_url }}"
+    state: present
+
+- name: Install APM Server package
+  apt:
+    name: "apm-server={{ apm_server_version }}"
+    state: present
+
+- name: Ensure APM Server is started and enabled on boot.
+  service:
+    name: "apm-server"
+    state: started
+    enabled: yes
+
+- name: Install apm-server.yml
+  template:
+    src: apm-server.yml.j2
+    dest: /etc/apm-server/apm-server.yml
+  notify: restart apm-server
+

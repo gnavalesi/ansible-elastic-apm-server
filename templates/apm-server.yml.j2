@@ -1,0 +1,1258 @@
+################### APM Server Configuration #########################
+
+############################# APM Server ######################################
+
+# Defines the host and port the server is listening on.  use "unix:/path/to.sock" to listen on a unix domain socket.
+{% if apm_server_conf_apm_server_host is defined %}
+apm-server.host: "{{ apm_server_conf_apm_server_host }}"
+{% else %}
+#apm-server.host:
+{% endif %}
+
+# Maximum permitted size in bytes of an unzipped request accepted by the server to be processed.
+{% if apm_server_conf_apm_server_max_unzipped_size is defined %}
+apm-server.max_unzipped_size: {{ apm_server_conf_apm_server_max_unzipped_size }}
+{% else %}
+#apm-server.max_unzipped_size:
+{% endif %}
+# Maximum permitted size in bytes of a request's header accepted by the server to be processed.
+{% if apm_server_conf_apm_server_max_header_size is defined %}
+apm-server.max_header_size: {{ apm_server_conf_apm_server_max_header_size }}
+{% else %}
+#apm-server.max_header_size:
+{% endif %}
+
+# Maximum duration request will be queued before being read.
+{% if apm_server_conf_apm_server_max_request_queue_time is defined %}
+apm-server.max_request_queue_time: {{ apm_server_conf_apm_server_max_request_queue_time }}
+{% else %}
+#apm-server.max_request_queue_time:
+{% endif %}
+# Maximum permitted duration for reading an entire request.
+{% if apm_server_conf_apm_server_read_timeout is defined %}
+apm-server.read_timeout: {{ apm_server_conf_apm_server_read_timeout }}
+{% else %}
+#apm-server.read_timeout:
+{% endif %}
+# Maximum permitted duration for writing a response.
+{% if apm_server_conf_apm_server_write_timeout is defined %}
+apm-server.write_timeout: {{ apm_server_conf_apm_server_write_timeout }}
+{% else %}
+#apm-server.write_timeout:
+{% endif %}
+
+# Maximum duration in seconds before releasing resources when shutting down the server.
+{% if apm_server_conf_apm_server_shutdown_timeout is defined %}
+apm-server.shutdown_timeout: {{ apm_server_conf_apm_server_shutdown_timeout }}
+{% else %}
+#apm-server.shutdown_timeout:
+{% endif %}
+
+# Maximum number of requests permitted to be sent to the server concurrently.
+{% if apm_server_conf_apm_server_concurrent_requests is defined %}
+apm-server.concurrent_requests: {{ apm_server_conf_apm_server_concurrent_requests }}
+{% else %}
+#apm-server.concurrent_requests:
+{% endif %}
+
+# Maximum number of new connections to accept simultaneously (0 means unlimited)
+{% if apm_server_conf_apm_server_max_connections is defined %}
+apm-server.max_connections: {{ apm_server_conf_apm_server_max_connections }}
+{% else %}
+#apm-server.max_connections:
+{% endif %}
+
+# Instrumentation support for the server's HTTP endpoints and event publisher.
+# Set to true to enable instrumentation of the APM server itself.
+{% if apm_server_conf_apm_server_instrumentation_enabled is defined %}
+apm-server.instrumentation.enabled: {{ apm_server_conf_apm_server_instrumentation_enabled }}
+{% else %}
+#apm-server.instrumentation.enabled:
+{% endif %}
+# Environment in which the APM Server is running on (eg: staging, production, etc.)
+{% if apm_server_conf_apm_server_instrumentation_environment is defined %}
+apm-server.instrumentation.environment: {{ apm_server_conf_apm_server_instrumentation_environment }}
+{% else %}
+#apm-server.instrumentation.environment:
+{% endif %}
+
+# Authorization token to be checked. If a token is set here the agents must
+# send their token in the following format: Authorization: Bearer <secret-token>.
+# It is recommended to use an authorization token in combination with SSL enabled,
+# and save the token in the beats keystore.
+{% if apm_server_conf_apm_server_secret_token is defined %}
+apm-server.secret_token: {{ apm_server_conf_apm_server_secret_token }}
+{% else %}
+#apm-server.secret_token:
+{% endif %}
+{% if apm_server_conf_apm_server_ssl_enabled is defined %}
+apm-server.ssl.enabled: {{ apm_server_conf_apm_server_ssl_enabled }}
+{% else %}
+#apm-server.ssl.enabled:
+{% endif %}
+{% if apm_server_conf_apm_server_ssl_certificate is defined %}
+apm-server.ssl.certificate: {{ apm_server_conf_apm_server_ssl_certificate }}
+{% else %}
+#apm-server.ssl.certificate:
+{% endif %}
+{% if apm_server_conf_apm_server_ssl_key is defined %}
+apm-server.ssl.key: {{ apm_server_conf_apm_server_ssl_key }}
+{% else %}
+#apm-server.ssl.key:
+{% endif %}
+# It is recommended to use the provided keystore instead of entering the passphrase in plain text.
+{% if apm_server_conf_apm_server_ssl_key_passphrase is defined %}
+apm-server.ssl.key_passphrase: {{ apm_server_conf_apm_server_ssl_key_passphrase }}
+{% else %}
+#apm-server.ssl.key_passphrase:
+{% endif %}
+
+# To enable real user monitoring (RUM) support set this to true.
+{% if apm_server_conf_apm_server_rum_enabled is defined %}
+apm-server.rum.enabled: {{ apm_server_conf_apm_server_rum_enabled }}
+{% else %}
+#apm-server.rum.enabled:
+{% endif %}
+
+# Rate limit per second and IP address for requests sent to the RUM endpoint.
+{% if apm_server_conf_apm_server_rum_rate_limit is defined %}
+apm-server.rum.rate_limit: {{ apm_server_conf_apm_server_rum_rate_limit }}
+{% else %}
+#apm-server.rum.rate_limit:
+{% endif %}
+
+# Comma separated list of permitted origins for real user monitoring.
+# User-agents will send an origin header that will be validated against this list.
+# An origin is made of a protocol scheme, host and port, without the url path.
+# Allowed origins in this setting can have * to match anything (eg.: http://*.example.com)
+# If an item in the list is a single '*', everything will be allowed
+{% if apm_server_conf_apm_server_rum_allow_origins is defined %}
+apm-server.rum.allow_origins: {{ apm_server_conf_apm_server_rum_allow_origins | to_yaml }}
+{% else %}
+#apm-server.rum.allow_origins:
+{% endif %}
+
+# Regexp to be matched against a stacktrace frame's `file_name` and `abs_path` attributes.
+# If the regexp matches, the stacktrace frame is considered to be a library frame.
+{% if apm_server_conf_apm_server_rum_library_pattern is defined %}
+apm-server.rum.library_pattern: {{ apm_server_conf_apm_server_rum_library_pattern }}
+{% else %}
+#apm-server.rum.library_pattern:
+{% endif %}
+
+# Regexp to be matched against a stacktrace frame's `file_name`.
+# If the regexp matches, the stacktrace frame is not used for calculating error groups.
+# The default pattern excludes stacktrace frames that have a filename starting with '/webpack'
+{% if apm_server_conf_apm_server_rum_exclude_from_grouping is defined %}
+apm-server.rum.exclude_from_grouping: {{ apm_server_conf_apm_server_rum_exclude_from_grouping }}
+{% else %}
+#apm-server.rum.exclude_from_grouping:
+{% endif %}
+
+# If a source map has previously been uploaded, source mapping is automatically applied
+# to all error and transaction documents sent to the RUM endpoint.
+
+# Source maps are always fetched from Elasticsearch, by default using the output.elasticsearch configuration.
+# A different instance must be configured when using any other output.
+# This setting only affects sourcemap reads - the output determines where sourcemaps are written.
+
+# Array of hosts to connect to.
+# Scheme and port can be left out and will be set to the default (http and 9200)
+# In case you specify and additional path, the scheme is required: http://localhost:9200/path
+# IPv6 addresses should always be defined as: https://[2001:db8::1]:9200
+{% if apm_server_conf_apm_server_rum_source_mapping_elasticsearch_hosts is defined %}
+apm-server.rum.source_mapping.elasticsearch.hosts: {{ apm_server_conf_apm_server_rum_source_mapping_elasticsearch_hosts | to_yaml }}
+{% else %}
+#apm-server.rum.source_mapping.elasticsearch.hosts:
+{% endif %}
+
+# Optional protocol and basic auth credentials.
+{% if apm_server_conf_apm_server_rum_source_mapping_elasticsearch_protocol is defined %}
+apm-server.rum.source_mapping.elasticsearch.protocol: {{ apm_server_conf_apm_server_rum_source_mapping_elasticsearch_protocol }}
+{% else %}
+#apm-server.rum.source_mapping.elasticsearch.protocol:
+{% endif %}
+{% if apm_server_conf_apm_server_rum_source_mapping_elasticsearch_username is defined %}
+apm-server.rum.source_mapping.elasticsearch.username: {{ apm_server_conf_apm_server_rum_source_mapping_elasticsearch_username }}
+{% else %}
+#apm-server.rum.source_mapping.elasticsearch.username:
+{% endif %}
+{% if apm_server_conf_apm_server_rum_source_mapping_elasticsearch_password is defined %}
+apm-server.rum.source_mapping.elasticsearch.password: {{ apm_server_conf_apm_server_rum_source_mapping_elasticsearch_password }}
+{% else %}
+#apm-server.rum.source_mapping.elasticsearch.password:
+{% endif %}
+
+# The `cache.expiration` determines how long a source map should be cached before fetching it again from Elasticsearch.
+# Note that values configured without a time unit will be interpreted as seconds.
+{% if apm_server_conf_apm_server_rum_source_mapping_cache_expiration is defined %}
+apm-server.rum.source_mapping.cache.expiration: {{ apm_server_conf_apm_server_rum_source_mapping_cache_expiration }}
+{% else %}
+#apm-server.rum.source_mapping.cache.expiration:
+{% endif %}
+
+# Source maps are stored in a seperate index.
+# If the default index pattern for source maps at 'outputs.elasticsearch.indices'
+# is changed, a matching index pattern needs to be specified here.
+{% if apm_server_conf_apm_server_rum_source_mapping_index_pattern is defined %}
+apm-server.rum.source_mapping.index_pattern: {{ apm_server_conf_apm_server_rum_source_mapping_index_pattern }}
+{% else %}
+#apm-server.rum.source_mapping.index_pattern:
+{% endif %}
+
+# If set to true, APM Server augments data received by the agent with the original IP of the backend server,
+# or the IP and User Agent of the real user (RUM requests). It defaults to true.
+{% if apm_server_conf_apm_server_rum_capture_personal_data is defined %}
+apm-server.rum.capture_personal_data: {{ apm_server_conf_apm_server_rum_capture_personal_data }}
+{% else %}
+#apm-server.rum.capture_personal_data:
+{% endif %}
+
+# golang expvar support - https://golang.org/pkg/expvar/
+# Set to true to Expose expvar
+{% if apm_server_conf_apm_server_rum_expvar_enabled is defined %}
+apm-server.rum.expvar.enabled: {{ apm_server_conf_apm_server_rum_expvar_enabled }}
+{% else %}
+#apm-server.rum.expvar.enabled:
+{% endif %}
+
+# Url to expose expvar
+{% if apm_server_conf_apm_server_rum_expvar_url is defined %}
+apm-server.rum.expvar.url: {{ apm_server_conf_apm_server_rum_expvar_url }}
+{% else %}
+#apm-server.rum.expvar.url:
+{% endif %}
+
+# Experimental Metrics endpoint
+# Set to false to disable the metrics endpoint
+{% if apm_server_conf_apm_server_rum_metrics_enabled is defined %}
+apm-server.rum.metrics.enabled: {{ apm_server_conf_apm_server_rum_metrics_enabled }}
+{% else %}
+#apm-server.rum.metrics.enabled:
+{% endif %}
+
+#================================ General ======================================
+
+# Internal queue configuration for buffering events to be published.
+
+# Queue type by name (default 'mem')
+# The memory queue will present all available events (up to the outputs
+# bulk_max_size) to the output, the moment the output is ready to server
+# another batch of events.
+
+# Max number of events the queue can buffer.
+{% if apm_server_conf_queue_mem_events is defined %}
+queue.mem.events: {{ apm_server_conf_queue_mem_events }}
+{% else %}
+#queue.mem.events:
+{% endif %}
+
+# Hints the minimum number of events stored in the queue,
+# before providing a batch of events to the outputs.
+# A value of 0 (the default) ensures events are immediately available
+# to be sent to the outputs.
+{% if apm_server_conf_queue_mem_flush_min_events is defined %}
+queue.mem.flush.min_events: {{ apm_server_conf_queue_mem_flush_min_events }}
+{% else %}
+#queue.mem.flush.min_events:
+{% endif %}
+
+# Maximum duration after which events are available to the outputs,
+# if the number of events stored in the queue is < min_flush_events.
+{% if apm_server_conf_queue_mem_flush_timeout is defined %}
+queue.mem.flush.timeout: {{ apm_server_conf_queue_mem_flush_timeout }}
+{% else %}
+#queue.mem.flush.timeout:
+{% endif %}
+
+# Sets the maximum number of CPUs that can be executing simultaneously. The
+# default is the number of logical CPUs available in the system.
+{% if apm_server_conf_max_procs is defined %}
+max_procs: {{ apm_server_conf_max_procs }}
+{% else %}
+#max_procs:
+{% endif %}
+
+
+#==================== Elasticsearch template setting ==========================
+
+# Elasticsearch template settings
+
+# A dictionary of settings to place into the settings.index dictionary
+# of the Elasticsearch template. For more details, please check
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html
+{% if apm_server_conf_setup_template_settings_index is defined %}
+setup.template.settings.index: {{ apm_server_conf_setup_template_settings_index }}
+{% else %}
+#setup.template.settings.index:
+{% endif %}
+{% if apm_server_conf_setup_template_settings_index_number_of_shards is defined %}
+setup.template.settings.index.number_of_shards: {{ apm_server_conf_setup_template_settings_index_number_of_shards }}
+{% else %}
+#setup.template.settings.index.number_of_shards:
+{% endif %}
+{% if apm_server_conf_setup_template_settings_index_codec is defined %}
+setup.template.settings.index.codec: {{ apm_server_conf_setup_template_settings_index_codec }}
+{% else %}
+#setup.template.settings.index.codec:
+{% endif %}
+{% if apm_server_conf_setup_template_settings_index_number_of_routing_shards is defined %}
+setup.template.settings.index.number_of_routing_shards: {{ apm_server_conf_setup_template_settings_index_number_of_routing_shards }}
+{% else %}
+#setup.template.settings.index.number_of_routing_shards:
+{% endif %}
+
+
+#============================== Template =====================================
+
+# A template is used to set the mapping in Elasticsearch
+# By default template loading is enabled and the template is loaded.
+# These settings can be adjusted to load your own template or overwrite existing ones.
+
+# Set to false to disable template loading.
+{% if apm_server_conf_setup_template_enabled is defined %}
+setup.template.enabled: {{ apm_server_conf_setup_template_enabled }}
+{% else %}
+#setup.template.enabled:
+{% endif %}
+
+# Template name. By default the template name is "apm-%{[beat.version]}"
+# The template name and pattern has to be set in case the elasticsearch index pattern is modified.
+{% if apm_server_conf_setup_template_name is defined %}
+setup.template.name: {{ apm_server_conf_setup_template_name }}
+{% else %}
+#setup.template.name:
+{% endif %}
+
+# Template pattern. By default the template pattern is "apm-%{[beat.version]}-*" to apply to the default index settings.
+# The first part is the version of the beat and then -* is used to match all daily indices.
+# The template name and pattern has to be set in case the elasticsearch index pattern is modified.
+{% if apm_server_conf_setup_template_pattern is defined %}
+setup.template.pattern: {{ apm_server_conf_setup_template_pattern }}
+{% else %}
+#setup.template.pattern:
+{% endif %}
+
+# Path to fields.yml file to generate the template
+{% if apm_server_conf_setup_template_fields is defined %}
+setup.template.fields: {{ apm_server_conf_setup_template_fields }}
+{% else %}
+#setup.template.fields:
+{% endif %}
+
+# Overwrite existing template
+{% if apm_server_conf_setup_template_overwrite is defined %}
+setup.template.overwrite: {{ apm_server_conf_setup_template_overwrite }}
+{% else %}
+#setup.template.overwrite:
+{% endif %}
+
+# Elasticsearch template settings
+
+# A dictionary of settings to place into the settings.index dictionary
+# of the Elasticsearch template. For more details, please check
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html
+
+{% if apm_server_conf_setup_template_settings_index_number_of_shards is defined %}
+setup.template.settings.index.number_of_shards: {{ apm_server_conf_setup_template_settings_index_number_of_shards }}
+{% else %}
+#setup.template.settings.index.number_of_shards:
+{% endif %}
+{% if apm_server_conf_setup_template_settings_index_codec is defined %}
+setup.template.settings.index.codec: {{ apm_server_conf_setup_template_settings_index_codec }}
+{% else %}
+#setup.template.settings.index.codec:
+{% endif %}
+{% if apm_server_conf_setup_template_settings_index_number_of_routing_shards is defined %}
+setup.template.settings.index.number_of_routing_shards: {{ apm_server_conf_setup_template_settings_index_number_of_routing_shards }}
+{% else %}
+#setup.template.settings.index.number_of_routing_shards:
+{% endif %}
+
+# A dictionary of settings for the _source field. For more details, please check
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-source-field.html
+{% if apm_server_conf_setup_template_settings__source_enabled is defined %}
+setup.template.settings._source.enabled: {{ apm_server_conf_setup_template_settings__source_enabled }}
+{% else %}
+#setup.template.settings._source.enabled:
+{% endif %}
+
+
+#================================ Outputs =====================================
+
+# Configure what output to use when sending the data collected by the beat.
+
+#-------------------------- Elasticsearch output ------------------------------
+# Array of hosts to connect to.
+# Scheme and port can be left out and will be set to the default (http and 9200)
+# In case you specify and additional path, the scheme is required: http://localhost:9200/path
+# IPv6 addresses should always be defined as: https://[2001:db8::1]:9200
+{% if apm_server_conf_output_elasticsearch_hosts is defined %}
+output.elasticsearch.hosts: {{ apm_server_conf_output_elasticsearch_hosts | to_yaml }}
+{% else %}
+#output.elasticsearch.hosts:
+{% endif %}
+
+# Boolean flag to enable or disable the output module.
+{% if apm_server_conf_output_elasticsearch_enabled is defined %}
+output.elasticsearch.enabled: {{ apm_server_conf_output_elasticsearch_enabled }}
+{% else %}
+#output.elasticsearch.enabled:
+{% endif %}
+
+# Set gzip compression level.
+{% if apm_server_conf_output_elasticsearch_compression_level is defined %}
+output.elasticsearch.compression_level: {{ apm_server_conf_output_elasticsearch_compression_level }}
+{% else %}
+#output.elasticsearch.compression_level:
+{% endif %}
+
+# Optional protocol and basic auth credentials.
+{% if apm_server_conf_output_elasticsearch_protocol is defined %}
+output.elasticsearch.protocol: {{ apm_server_conf_output_elasticsearch_protocol }}
+{% else %}
+#output.elasticsearch.protocol:
+{% endif %}
+{% if apm_server_conf_output_elasticsearch_username is defined %}
+output.elasticsearch.username: {{ apm_server_conf_output_elasticsearch_username }}
+{% else %}
+#output.elasticsearch.username:
+{% endif %}
+{% if apm_server_conf_output_elasticsearch_password is defined %}
+output.elasticsearch.password: {{ apm_server_conf_output_elasticsearch_password }}
+{% else %}
+#output.elasticsearch.password:
+{% endif %}
+
+# Dictionary of HTTP parameters to pass within the url with index operations.
+{% if apm_server_conf_output_elasticsearch_parameters is defined %}
+output.elasticsearch.parameters: {{ apm_server_conf_output_elasticsearch_parameters  | to_yaml}}
+{% else %}
+#output.elasticsearch.parameters:
+{% endif %}
+
+# Number of workers per Elasticsearch host.
+{% if apm_server_conf_output_elasticsearch_worker is defined %}
+output.elasticsearch.worker: {{ apm_server_conf_output_elasticsearch_worker }}
+{% else %}
+#output.elasticsearch.worker:
+{% endif %}
+
+# By using the configuration below, apm documents are stored to separate indices,
+# depending on their `processor.event`:
+# - error
+# - transaction
+# - span
+# - sourcemap
+#
+# The indices are all prefixed with `apm-%{[beat.version]}`.
+# To allow managing indices based on their age, all indices (except for sourcemaps)
+# end with the information of the day they got indexed.
+# e.g. "apm-6.3.0-transaction-2018.03.20"
+#
+# Be aware that you can only specify one Elasticsearch template and one Kibana Index Pattern,
+# In case you modify the index patterns you must also update those configurations accordingly,
+# as they need to be aligned:
+# * `setup.template.name`
+# * `setup.template.pattern`
+# * `setup.dashboards.index`
+{% if apm_server_conf_output_elasticsearch_index is defined %}
+output.elasticsearch.index: {{ apm_server_conf_output_elasticsearch_index }}
+{% else %}
+#output.elasticsearch.index:
+{% endif %}
+{% if apm_server_conf_output_elasticsearch_indices is defined %}
+output.elasticsearch.indices:
+{{ apm_server_conf_output_elasticsearch_indices | to_yaml }}
+{% else %}
+#output.elasticsearch.indices:
+{% endif %}
+
+# Optional ingest node pipeline. By default no pipeline will be used.
+{% if apm_server_conf_output_elasticsearch_pipeline is defined %}
+output.elasticsearch.pipeline: {{ apm_server_conf_output_elasticsearch_pipeline }}
+{% else %}
+#output.elasticsearch.pipeline:
+{% endif %}
+
+# Optional HTTP Path
+{% if apm_server_conf_output_elasticsearch_path is defined %}
+output.elasticsearch.path: {{ apm_server_conf_output_elasticsearch_path }}
+{% else %}
+#output.elasticsearch.path:
+{% endif %}
+
+# Custom HTTP headers to add to each request
+{% if apm_server_conf_output_elasticsearch_headers is defined %}
+output.elasticsearch.headers: {{ apm_server_conf_output_elasticsearch_headers  | to_yaml}}
+{% else %}
+#output.elasticsearch.headers:
+{% endif %}
+
+# Proxy server url
+{% if apm_server_conf_output_elasticsearch_proxy_url is defined %}
+output.elasticsearch.proxy_url: {{ apm_server_conf_output_elasticsearch_proxy_url }}
+{% else %}
+#output.elasticsearch.proxy_url:
+{% endif %}
+
+# The number of times a particular Elasticsearch index operation is attempted. If
+# the indexing operation doesn't succeed after this many retries, the events are
+# dropped. The default is 3.
+{% if apm_server_conf_output_elasticsearch_max_retries is defined %}
+output.elasticsearch.max_retries: {{ apm_server_conf_output_elasticsearch_max_retries }}
+{% else %}
+#output.elasticsearch.max_retries:
+{% endif %}
+
+# The maximum number of events to bulk in a single Elasticsearch bulk API index request.
+# The default is 50.
+{% if apm_server_conf_output_elasticsearch_bulk_max_size is defined %}
+output.elasticsearch.bulk_max_size: {{ apm_server_conf_output_elasticsearch_bulk_max_size }}
+{% else %}
+#output.elasticsearch.bulk_max_size:
+{% endif %}
+
+# Configure http request timeout before failing an request to Elasticsearch.
+{% if apm_server_conf_output_elasticsearch_timeout is defined %}
+output.elasticsearch.timeout: {{ apm_server_conf_output_elasticsearch_timeout }}
+{% else %}
+#output.elasticsearch.timeout:
+{% endif %}
+
+# Use SSL settings for HTTPS. Default is false.
+{% if apm_server_conf_output_elasticsearch_ssl_enabled is defined %}
+output.elasticsearch.ssl.enabled: {{ apm_server_conf_output_elasticsearch_ssl_enabled }}
+{% else %}
+#output.elasticsearch.ssl.enabled:
+{% endif %}
+
+# Configure SSL verification mode. If `none` is configured, all server hosts
+# and certificates will be accepted. In this mode, SSL based connections are
+# susceptible to man-in-the-middle attacks. Use only for testing. Default is
+# `full`.
+{% if apm_server_conf_output_elasticsearch_ssl_verification_mode is defined %}
+output.elasticsearch.ssl.verification_mode: {{ apm_server_conf_output_elasticsearch_ssl_verification_mode }}
+{% else %}
+#output.elasticsearch.ssl.verification_mode:
+{% endif %}
+
+# List of supported/valid TLS versions. By default all TLS versions 1.0 up to
+# 1.2 are enabled.
+{% if apm_server_conf_output_elasticsearch_ssl_supported_protocols is defined %}
+output.elasticsearch.ssl.supported_protocols: {{ apm_server_conf_output_elasticsearch_ssl_supported_protocols | to_yaml }}
+{% else %}
+#output.elasticsearch.ssl.supported_protocols:
+{% endif %}
+
+# SSL configuration. By default is off.
+# List of root certificates for HTTPS server verifications
+{% if apm_server_conf_output_elasticsearch_ssl_certificate_authorities is defined %}
+output.elasticsearch.ssl.certificate_authorities: {{ apm_server_conf_output_elasticsearch_ssl_certificate_authorities | to_yaml }}
+{% else %}
+#output.elasticsearch.ssl.certificate_authorities:
+{% endif %}
+
+# Certificate for SSL client authentication
+{% if apm_server_conf_output_elasticsearch_ssl_certificate is defined %}
+output.elasticsearch.ssl.certificate: {{ apm_server_conf_output_elasticsearch_ssl_certificate }}
+{% else %}
+#output.elasticsearch.ssl.certificate:
+{% endif %}
+
+# Client Certificate Key
+{% if apm_server_conf_output_elasticsearch_ssl_key is defined %}
+output.elasticsearch.ssl.key: {{ apm_server_conf_output_elasticsearch_ssl_key }}
+{% else %}
+#output.elasticsearch.ssl.key:
+{% endif %}
+
+# Optional passphrase for decrypting the Certificate Key.
+# It is recommended to use the provided keystore instead of entering the passphrase in plain text.
+{% if apm_server_conf_output_elasticsearch_ssl_key_passphrase is defined %}
+output.elasticsearch.ssl.key_passphrase: {{ apm_server_conf_output_elasticsearch_ssl_key_passphrase }}
+{% else %}
+#output.elasticsearch.ssl.key_passphrase:
+{% endif %}
+
+# Configure cipher suites to be used for SSL connections
+{% if apm_server_conf_output_elasticsearch_ssl_cipher_suites is defined %}
+output.elasticsearch.ssl.cipher_suites: {{ apm_server_conf_output_elasticsearch_ssl_cipher_suites | to_yaml }}
+{% else %}
+#output.elasticsearch.ssl.cipher_suites:
+{% endif %}
+
+# Configure curve types for ECDHE based cipher suites
+{% if apm_server_conf_output_elasticsearch_ssl_curve_types is defined %}
+output.elasticsearch.ssl.curve_types: {{ apm_server_conf_output_elasticsearch_ssl_curve_types | to_yaml }}
+{% else %}
+#output.elasticsearch.ssl.curve_types:
+{% endif %}
+
+# Configure what types of renegotiation are supported. Valid options are
+# never, once, and freely. Default is never.
+{% if apm_server_conf_output_elasticsearch_ssl_renegotiation is defined %}
+output.elasticsearch.ssl.renegotiation: {{ apm_server_conf_output_elasticsearch_ssl_renegotiation }}
+{% else %}
+#output.elasticsearch.ssl.renegotiation:
+{% endif %}
+
+#----------------------------- Console output ---------------------------------
+
+# Boolean flag to enable or disable the output module.
+{% if apm_server_conf_output_console_enabled is defined %}
+output.console.enabled: {{ apm_server_conf_output_console_enabled }}
+{% else %}
+#output.console.enabled:
+{% endif %}
+
+# Pretty print json event
+{% if apm_server_conf_output_console_pretty is defined %}
+output.console.pretty: {{ apm_server_conf_output_console_pretty }}
+{% else %}
+#output.console.pretty:
+{% endif %}
+
+#----------------------------- Logstash output ---------------------------------
+
+# Boolean flag to enable or disable the output module.
+{% if apm_server_conf_output_logstash_enabled is defined %}
+output.logstash.enabled: {{ apm_server_conf_output_logstash_enabled }}
+{% else %}
+#output.logstash.enabled:
+{% endif %}
+
+# The Logstash hosts
+{% if apm_server_conf_output_logstash_hosts is defined %}
+output.logstash.hosts: {{ apm_server_conf_output_logstash_hosts | to_yaml }}
+{% else %}
+#output.logstash.hosts:
+{% endif %}
+
+# Number of workers per Logstash host.
+{% if apm_server_conf_output_logstash_worker is defined %}
+output.logstash.worker: {{ apm_server_conf_output_logstash_worker }}
+{% else %}
+#output.logstash.worker:
+{% endif %}
+
+# Set gzip compression level.
+{% if apm_server_conf_output_logstash_compression_level is defined %}
+output.logstash.compression_level: {{ apm_server_conf_output_logstash_compression_level }}
+{% else %}
+#output.logstash.compression_level:
+{% endif %}
+
+# Configure escaping html symbols in strings.
+{% if apm_server_conf_output_logstash_escape_html is defined %}
+output.logstash.escape_html: {{ apm_server_conf_output_logstash_escape_html }}
+{% else %}
+#output.logstash.escape_html:
+{% endif %}
+
+# Optional maximum time to live for a connection to Logstash, after which the
+# connection will be re-established.  A value of `0s` (the default) will
+# disable this feature.
+#
+# Not yet supported for async connections (i.e. with the "pipelining" option set)
+{% if apm_server_conf_output_logstash_ttl is defined %}
+output.logstash.ttl: {{ apm_server_conf_output_logstash_ttl }}
+{% else %}
+#output.logstash.ttl:
+{% endif %}
+
+# Optional load balance the events between the Logstash hosts. Default is false.
+{% if apm_server_conf_output_logstash_loadbalance is defined %}
+output.logstash.loadbalance: {{ apm_server_conf_output_logstash_loadbalance }}
+{% else %}
+#output.logstash.loadbalance:
+{% endif %}
+
+# Number of batches to be sent asynchronously to Logstash while processing
+# new batches.
+{% if apm_server_conf_output_logstash_pipelining is defined %}
+output.logstash.pipelining: {{ apm_server_conf_output_logstash_pipelining }}
+{% else %}
+#output.logstash.pipelining:
+{% endif %}
+
+# If enabled only a subset of events in a batch of events is transferred per
+# group.  The number of events to be sent increases up to `bulk_max_size`
+# if no error is encountered.
+{% if apm_server_conf_output_logstash_slow_start is defined %}
+output.logstash.slow_start: {{ apm_server_conf_output_logstash_slow_start }}
+{% else %}
+#output.logstash.slow_start:
+{% endif %}
+
+# The number of seconds to wait before trying to reconnect to Logstash
+# after a network error. After waiting backoff.init seconds, the Beat
+# tries to reconnect. If the attempt fails, the backoff timer is increased
+# exponentially up to backoff.max. After a successful connection, the backoff
+# timer is reset. The default is 1s.
+{% if apm_server_conf_output_logstash_backoff_init is defined %}
+output.logstash.backoff.init: {{ apm_server_conf_output_logstash_backoff_init }}
+{% else %}
+#output.logstash.backoff.init:
+{% endif %}
+
+# The maximum number of seconds to wait before attempting to connect to
+# Logstash after a network error. The default is 60s.
+{% if apm_server_conf_output_logstash_backoff_max is defined %}
+output.logstash.backoff.max: {{ apm_server_conf_output_logstash_backoff_max }}
+{% else %}
+#output.logstash.backoff.max:
+{% endif %}
+
+# Optional index name. The default index name is set to apm
+# in all lowercase.
+{% if apm_server_conf_output_logstash_index is defined %}
+output.logstash.index: {{ apm_server_conf_output_logstash_index }}
+{% else %}
+#output.logstash.index:
+{% endif %}
+
+# SOCKS5 proxy server URL
+{% if apm_server_conf_output_logstash_proxy_url is defined %}
+output.logstash.proxy_url: {{ apm_server_conf_output_logstash_proxy_url }}
+{% else %}
+#output.logstash.proxy_url:
+{% endif %}
+
+# Resolve names locally when using a proxy server. Defaults to false.
+{% if apm_server_conf_output_logstash_proxy_use_local_resolver is defined %}
+output.logstash.proxy_use_local_resolver: {{ apm_server_conf_output_logstash_proxy_use_local_resolver }}
+{% else %}
+#output.logstash.proxy_use_local_resolver:
+{% endif %}
+
+# Enable SSL support. SSL is automatically enabled, if any SSL setting is set.
+{% if apm_server_conf_output_logstash_ssl_enabled is defined %}
+output.logstash.ssl.enabled: {{ apm_server_conf_output_logstash_ssl_enabled }}
+{% else %}
+#output.logstash.ssl.enabled:
+{% endif %}
+
+# Configure SSL verification mode. If `none` is configured, all server hosts
+# and certificates will be accepted. In this mode, SSL based connections are
+# susceptible to man-in-the-middle attacks. Use only for testing. Default is
+# `full`.
+{% if apm_server_conf_output_logstash_ssl_verification_mode is defined %}
+output.logstash.ssl.verification_mode: {{ apm_server_conf_output_logstash_ssl_verification_mode }}
+{% else %}
+#output.logstash.ssl.verification_mode:
+{% endif %}
+
+# List of supported/valid TLS versions. By default all TLS versions 1.0 up to
+# 1.2 are enabled.
+{% if apm_server_conf_output_logstash_ssl_supported_protocols is defined %}
+output.logstash.ssl.supported_protocols: {{ apm_server_conf_output_logstash_ssl_supported_protocols | to_yaml }}
+{% else %}
+#output.logstash.ssl.supported_protocols:
+{% endif %}
+
+# Optional SSL configuration options. SSL is off by default.
+# List of root certificates for HTTPS server verifications
+{% if apm_server_conf_output_logstash_ssl_certificate_authorities is defined %}
+output.logstash.ssl.certificate_authorities: {{ apm_server_conf_output_logstash_ssl_certificate_authorities | to_yaml }}
+{% else %}
+#output.logstash.ssl.certificate_authorities:
+{% endif %}
+
+# Certificate for SSL client authentication
+{% if apm_server_conf_output_logstash_ssl_certificate is defined %}
+output.logstash.ssl.certificate: {{ apm_server_conf_output_logstash_ssl_certificate }}
+{% else %}
+#output.logstash.ssl.certificate:
+{% endif %}
+
+# Client Certificate Key
+{% if apm_server_conf_output_logstash_ssl_key is defined %}
+output.logstash.ssl.key: {{ apm_server_conf_output_logstash_ssl_key }}
+{% else %}
+#output.logstash.ssl.key:
+{% endif %}
+
+# Optional passphrase for decrypting the Certificate Key.
+{% if apm_server_conf_output_logstash_ssl_key_passphrase is defined %}
+output.logstash.ssl.key_passphrase: {{ apm_server_conf_output_logstash_ssl_key_passphrase }}
+{% else %}
+#output.logstash.ssl.key_passphrase:
+{% endif %}
+
+# Configure cipher suites to be used for SSL connections
+{% if apm_server_conf_output_logstash_ssl_cipher_suites is defined %}
+output.logstash.ssl.cipher_suites: {{ apm_server_conf_output_logstash_ssl_cipher_suites | to_yaml }}
+{% else %}
+#output.logstash.ssl.cipher_suites:
+{% endif %}
+
+# Configure curve types for ECDHE based cipher suites
+{% if apm_server_conf_output_logstash_ssl_curve_types is defined %}
+output.logstash.ssl.curve_types: {{ apm_server_conf_output_logstash_ssl_curve_types | to_yaml }}
+{% else %}
+#output.logstash.ssl.curve_types:
+{% endif %}
+
+# Configure what types of renegotiation are supported. Valid options are
+# never, once, and freely. Default is never.
+{% if apm_server_conf_output_logstash_ssl_renegotiation is defined %}
+output.logstash.ssl.renegotiation: {{ apm_server_conf_output_logstash_ssl_renegotiation }}
+{% else %}
+#output.logstash.ssl.renegotiation:
+{% endif %}
+
+#------------------------------- Kafka output ----------------------------------
+
+# Boolean flag to enable or disable the output module.
+{% if apm_server_conf_output_kafka_enabled is defined %}
+output.kafka.enabled: {{ apm_server_conf_output_kafka_enabled }}
+{% else %}
+#output.kafka.enabled:
+{% endif %}
+
+# The list of Kafka broker addresses from where to fetch the cluster metadata.
+# The cluster metadata contain the actual Kafka brokers events are published
+# to.
+{% if apm_server_conf_output_kafka_hosts is defined %}
+output.kafka.hosts: {{ apm_server_conf_output_kafka_hosts | to_yaml }}
+{% else %}
+#output.kafka.hosts:
+{% endif %}
+
+# The Kafka topic used for produced events. The setting can be a format string
+# using any event field. To set the topic from document type use `%{[type]}`.
+{% if apm_server_conf_output_kafka_topic is defined %}
+output.kafka.topic: {{ apm_server_conf_output_kafka_topic }}
+{% else %}
+#output.kafka.topic:
+{% endif %}
+
+# The Kafka event key setting. Use format string to create unique event key.
+# By default no event key will be generated.
+{% if apm_server_conf_output_kafka_key is defined %}
+output.kafka.key: {{ apm_server_conf_output_kafka_key }}
+{% else %}
+#output.kafka.key:
+{% endif %}
+
+# The Kafka event partitioning strategy. Default hashing strategy is `hash`
+# using the `output.kafka.key` setting or randomly distributes events if
+# `output.kafka.key` is not configured.
+
+# If enabled, events will only be published to partitions with reachable
+# leaders. Default is false.
+{% if apm_server_conf_output_kafka_partition_hash_reachable_only is defined %}
+output.kafka.partition.hash.reachable_only: {{ apm_server_conf_output_kafka_partition_hash_reachable_only }}
+{% else %}
+#output.kafka.partition.hash.reachable_only:
+{% endif %}
+
+# Configure alternative event field names used to compute the hash value.
+# If empty `output.kafka.key` setting will be used.
+# Default value is empty list.
+{% if apm_server_conf_output_kafka_partition_hash_hash is defined %}
+output.kafka.partition.hash.hash: {{ apm_server_conf_output_kafka_partition_hash_hash | to_yaml }}
+{% else %}
+#output.kafka.partition.hash.hash:
+{% endif %}
+
+# Authentication details. Password is required if username is set.
+{% if apm_server_conf_output_kafka_username is defined %}
+output.kafka.username: {{ apm_server_conf_output_kafka_username }}
+{% else %}
+#output.kafka.username:
+{% endif %}
+{% if apm_server_conf_output_kafka_password is defined %}
+output.kafka.password: {{ apm_server_conf_output_kafka_password }}
+{% else %}
+#output.kafka.password:
+{% endif %}
+
+# Kafka version libbeat is assumed to run against. Defaults to the "1.0.0".
+{% if apm_server_conf_output_kafka_version is defined %}
+output.kafka.version: {{ apm_server_conf_output_kafka_version }}
+{% else %}
+#output.kafka.version:
+{% endif %}
+
+# Configure JSON encoding
+
+# Pretty print json event
+{% if apm_server_conf_output_kafka_codec_json_pretty is defined %}
+output.kafka.codec.json.pretty: {{ apm_server_conf_output_kafka_codec_json_pretty }}
+{% else %}
+#output.kafka.codec.json.pretty:
+{% endif %}
+
+# Configure escaping html symbols in strings.
+{% if apm_server_conf_output_kafka_codec_json_escape_html is defined %}
+output.kafka.codec.json.escape_html: {{ apm_server_conf_output_kafka_codec_json_escape_html }}
+{% else %}
+#output.kafka.codec.json.escape_html:
+{% endif %}
+
+# Metadata update configuration. Metadata do contain leader information
+# deciding which broker to use when publishing.
+
+# Max metadata request retry attempts when cluster is in middle of leader
+# election. Defaults to 3 retries.
+{% if apm_server_conf_output_kafka_metadata_retry_max is defined %}
+output.kafka.metadata.retry.max: {{ apm_server_conf_output_kafka_metadata_retry_max }}
+{% else %}
+#output.kafka.metadata.retry.max:
+{% endif %}
+
+# Waiting time between retries during leader elections. Default is 250ms.
+{% if apm_server_conf_output_kafka_metadata_retry_backoff is defined %}
+output.kafka.metadata.retry.backoff: {{ apm_server_conf_output_kafka_metadata_retry_backoff }}
+{% else %}
+#output.kafka.metadata.retry.backoff:
+{% endif %}
+
+# Refresh metadata interval. Defaults to every 10 minutes.
+{% if apm_server_conf_output_kafka_metadata_refresh_frequency is defined %}
+output.kafka.metadata.refresh_frequency: {{ apm_server_conf_output_kafka_metadata_refresh_frequency }}
+{% else %}
+#output.kafka.metadata.refresh_frequency:
+{% endif %}
+
+# The number of concurrent load-balanced Kafka output workers.
+{% if apm_server_conf_output_kafka_worker is defined %}
+output.kafka.worker: {{ apm_server_conf_output_kafka_worker }}
+{% else %}
+#output.kafka.worker:
+{% endif %}
+
+# The number of times to retry publishing an event after a publishing failure.
+# After the specified number of retries, the events are typically dropped.
+# Some Beats, such as Filebeat, ignore the max_retries setting and retry until
+# all events are published.  Set max_retries to a value less than 0 to retry
+# until all events are published. The default is 3.
+{% if apm_server_conf_output_kafka_max_retries is defined %}
+output.kafka.max_retries: {{ apm_server_conf_output_kafka_max_retries }}
+{% else %}
+#output.kafka.max_retries:
+{% endif %}
+
+# The maximum number of events to bulk in a single Kafka request. The default
+# is 2048.
+{% if apm_server_conf_output_kafka_bulk_max_size is defined %}
+output.kafka.bulk_max_size: {{ apm_server_conf_output_kafka_bulk_max_size }}
+{% else %}
+#output.kafka.bulk_max_size:
+{% endif %}
+
+# The number of seconds to wait for responses from the Kafka brokers before
+# timing out. The default is 30s.
+{% if apm_server_conf_output_kafka_timeout is defined %}
+output.kafka.timeout: {{ apm_server_conf_output_kafka_timeout }}
+{% else %}
+#output.kafka.timeout:
+{% endif %}
+
+# The maximum duration a broker will wait for number of required ACKs. The
+# default is 10s.
+{% if apm_server_conf_output_kafka_broker_timeout is defined %}
+output.kafka.broker_timeout: {{ apm_server_conf_output_kafka_broker_timeout }}
+{% else %}
+#output.kafka.broker_timeout:
+{% endif %}
+
+# The number of messages buffered for each Kafka broker. The default is 256.
+{% if apm_server_conf_output_kafka_channel_buffer_size is defined %}
+output.kafka.channel_buffer_size: {{ apm_server_conf_output_kafka_channel_buffer_size }}
+{% else %}
+#output.kafka.channel_buffer_size:
+{% endif %}
+
+# The keep-alive period for an active network connection. If 0s, keep-alives
+# are disabled. The default is 0 seconds.
+{% if apm_server_conf_output_kafka_keep_alive is defined %}
+output.kafka.keep_alive: {{ apm_server_conf_output_kafka_keep_alive }}
+{% else %}
+#output.kafka.keep_alive:
+{% endif %}
+
+# Sets the output compression codec. Must be one of none, snappy and gzip. The
+# default is gzip.
+{% if apm_server_conf_output_kafka_compression is defined %}
+output.kafka.compression: {{ apm_server_conf_output_kafka_compression }}
+{% else %}
+#output.kafka.compression:
+{% endif %}
+
+# The maximum permitted size of JSON-encoded messages. Bigger messages will be
+# dropped. The default value is 1000000 (bytes). This value should be equal to
+# or less than the broker's message.max.bytes.
+{% if apm_server_conf_output_kafka_max_message_bytes is defined %}
+output.kafka.max_message_bytes: {{ apm_server_conf_output_kafka_max_message_bytes }}
+{% else %}
+#output.kafka.max_message_bytes:
+{% endif %}
+
+# The ACK reliability level required from broker. 0=no response, 1=wait for
+# local commit, -1=wait for all replicas to commit. The default is 1.  Note:
+# If set to 0, no ACKs are returned by Kafka. Messages might be lost silently
+# on error.
+{% if apm_server_conf_output_kafka_required_acks is defined %}
+output.kafka.required_acks: {{ apm_server_conf_output_kafka_required_acks }}
+{% else %}
+#output.kafka.required_acks:
+{% endif %}
+
+# The configurable ClientID used for logging, debugging, and auditing
+# purposes.  The default is "beats".
+{% if apm_server_conf_output_kafka_client_id is defined %}
+output.kafka.client_id: {{ apm_server_conf_output_kafka_client_id }}
+{% else %}
+#output.kafka.client_id:
+{% endif %}
+
+# Enable SSL support. SSL is automatically enabled, if any SSL setting is set.
+{% if apm_server_conf_output_kafka_ssl_enabled is defined %}
+output.kafka.ssl.enabled: {{ apm_server_conf_output_kafka_ssl_enabled }}
+{% else %}
+#output.kafka.ssl.enabled:
+{% endif %}
+
+# Optional SSL configuration options. SSL is off by default.
+# List of root certificates for HTTPS server verifications
+{% if apm_server_conf_output_kafka_ssl_certificate_authorities is defined %}
+output.kafka.ssl.certificate_authorities: {{ apm_server_conf_output_kafka_ssl_certificate_authorities | to_yaml }}
+{% else %}
+#output.kafka.ssl.certificate_authorities:
+{% endif %}
+
+# Configure SSL verification mode. If `none` is configured, all server hosts
+# and certificates will be accepted. In this mode, SSL based connections are
+# susceptible to man-in-the-middle attacks. Use only for testing. Default is
+# `full`.
+{% if apm_server_conf_output_kafka_ssl_verification_mode is defined %}
+output.kafka.ssl.verification_mode: {{ apm_server_conf_output_kafka_ssl_verification_mode }}
+{% else %}
+#output.kafka.ssl.verification_mode:
+{% endif %}
+
+# List of supported/valid TLS versions. By default all TLS versions 1.0 up to
+# 1.2 are enabled.
+{% if apm_server_conf_output_kafka_ssl_supported_protocols is defined %}
+output.kafka.ssl.supported_protocols: {{ apm_server_conf_output_kafka_ssl_supported_protocols | to_yaml }}
+{% else %}
+#output.kafka.ssl.supported_protocols:
+{% endif %}
+
+# Certificate for SSL client authentication
+{% if apm_server_conf_output_kafka_ssl_certificate is defined %}
+output.kafka.ssl.certificate: {{ apm_server_conf_output_kafka_ssl_certificate }}
+{% else %}
+#output.kafka.ssl.certificate:
+{% endif %}
+
+# Client Certificate Key
+{% if apm_server_conf_output_kafka_ssl_key is defined %}
+output.kafka.ssl.key: {{ apm_server_conf_output_kafka_ssl_key }}
+{% else %}
+#output.kafka.ssl.key:
+{% endif %}
+
+# Optional passphrase for decrypting the Certificate Key.
+{% if apm_server_conf_output_kafka_ssl_key_passphrase is defined %}
+output.kafka.ssl.key_passphrase: {{ apm_server_conf_output_kafka_ssl_key_passphrase }}
+{% else %}
+#output.kafka.ssl.key_passphrase:
+{% endif %}
+
+# Configure cipher suites to be used for SSL connections
+{% if apm_server_conf_output_kafka_ssl_cipher_suites is defined %}
+output.kafka.ssl.cipher_suites: {{ apm_server_conf_output_kafka_ssl_cipher_suites | to_yaml }}
+{% else %}
+#output.kafka.ssl.cipher_suites:
+{% endif %}
+
+# Configure curve types for ECDHE based cipher suites
+{% if apm_server_conf_output_kafka_ssl_curve_types is defined %}
+output.kafka.ssl.curve_types: {{ apm_server_conf_output_kafka_ssl_curve_types | to_yaml }}
+{% else %}
+#output.kafka.ssl.curve_types:
+{% endif %}
+
+# Configure what types of renegotiation are supported. Valid options are
+# never, once, and freely. Default is never.
+{% if apm_server_conf_output_kafka_ssl_renegotiation is defined %}
+output.kafka.ssl.renegotiation: {{ apm_server_conf_output_kafka_ssl_renegotiation }}
+{% else %}
+#output.kafka.ssl.renegotiation:
+{% endif %}
+
+#================================= Paths ======================================
+
+# The home path for the apm-server installation. This is the default base path
+# for all other path settings and for miscellaneous files that come with the
+# distribution (for example, the sample dashboards).
+# If not set by a CLI flag or in the configuration file, the default for the
+# home path is the location of the binary.
+{% if apm_server_conf_path_home is defined %}
+path.home: {{ apm_server_conf_path_home }}
+{% else %}
+#path.home:
+{% endif %}
+
+# The configuration path for the apm-server installation. This is the default
+# base path for configuration files, including the main YAML configuration file
+# and the Elasticsearch template file. If not set by a CLI flag or in the
+# configuration file, the default for the configuration path is the home path.
+{% if apm_server_conf_path_config is defined %}
+path.config: {{ apm_server_conf_path_config }}
+{% else %}
+#path.config:
+{% endif %}
+
+# The data path for the apm-server installation. This is the default base path
+# for all the files in which apm-server needs to store its data. If not set by a
+# CLI flag or in the configuration file, the default for the data path is a data
+# subdirectory inside the home path.
+{% if apm_server_conf_path_data is defined %}
+path.data: {{ apm_server_conf_path_data }}
+{% else %}
+#path.data:
+{% endif %}
+
+# The logs path for a apm-server installation. This is the default location for
+# the Beat's log files. If not set by a CLI flag or in the configuration file,
+# the default for the logs path is a logs subdirectory inside the home path.
+{% if apm_server_conf_path_logs is defined %}
+path.logs: {{ apm_server_conf_path_logs }}
+{% else %}
+#path.logs:
+{% endif %}
+
+
+#================================ Logging ======================================
+#
+# There are three options for the log output: syslog, file, stderr.
+# Under Windows systems, the log files are per default sent to the file output,
+# under all other system per default to syslog.
+
+# Sets log level. The default log level is info.
+# Available log levels are: error, warning, info, debug
+{% if apm_server_conf_logging_level is defined %}
+logging.level: {{ apm_server_conf_logging_level }}
+{% else %}
+#logging.level:
+{% endif %}
+
+# Enable debug output for selected components. To enable all selectors use ["*"]
+# Other available selectors are "beat", "publish", "service"
+# Multiple selectors can be chained.
+{% if apm_server_conf_logging_selectors is defined %}
+logging.selectors: {{ apm_server_conf_logging_selectors | to_yaml }}
+{% else %}
+#logging.selectors:
+{% endif %}
+
+# Send all logging output to syslog. The default is false.
+{% if apm_server_conf_logging_to_syslog is defined %}
+logging.to_syslog: {{ apm_server_conf_logging_to_syslog }}
+{% else %}
+#logging.to_syslog:
+{% endif %}
+
+# If enabled, apm-server periodically logs its internal metrics that have changed
+# in the last period. For each metric that changed, the delta from the value at
+# the beginning of the period is logged. Also, the total values for
+# all non-zero internal metrics are logged on shutdown. The default is true.
+{% if apm_server_conf_logging_metrics_enabled is defined %}
+logging.metrics.enabled: {{ apm_server_conf_logging_metrics_enabled }}
+{% else %}
+#logging.metrics.enabled:
+{% endif %}
+
+# The period after which to log the internal metrics. The default is 30s.
+{% if apm_server_conf_logging_metrics_period is defined %}
+logging.metrics.period: {{ apm_server_conf_logging_metrics_period }}
+{% else %}
+#logging.metrics.period:
+{% endif %}
+
+# Logging to rotating files. Set logging.to_files to false to disable logging to
+# files.
+{% if apm_server_conf_logging_to_files is defined %}
+logging.to_files: {{ apm_server_conf_logging_to_files }}
+{% else %}
+#logging.to_files:
+{% endif %}
+
+# Configure the path where the logs are written. The default is the logs directory
+# under the home path (the binary location).
+{% if apm_server_conf_logging_files_path is defined %}
+logging.files.path: {{ apm_server_conf_logging_files_path }}
+{% else %}
+#logging.files.path:
+{% endif %}
+
+# The name of the files where the logs are written to.
+{% if apm_server_conf_logging_files_name is defined %}
+logging.files.name: {{ apm_server_conf_logging_files_name }}
+{% else %}
+#logging.files.name:
+{% endif %}
+
+# Configure log file size limit. If limit is reached, log file will be
+# automatically rotated
+{% if apm_server_conf_logging_files_rotateeverybytes is defined %}
+logging.files.rotateeverybytes: {{ apm_server_conf_logging_files_rotateeverybytes }}
+{% else %}
+#logging.files.rotateeverybytes:
+{% endif %}
+
+# Number of rotated log files to keep. Oldest files will be deleted first.
+{% if apm_server_conf_logging_files_keepfiles is defined %}
+logging.files.keepfiles: {{ apm_server_conf_logging_files_keepfiles }}
+{% else %}
+#logging.files.keepfiles:
+{% endif %}
+
+# The permissions mask to apply when rotating log files. The default value is 0600.
+# Must be a valid Unix-style file permissions mask expressed in octal notation.
+{% if apm_server_conf_logging_files_permissions is defined %}
+logging.files.permissions: {{ apm_server_conf_logging_files_permissions }}
+{% else %}
+#logging.files.permissions:
+{% endif %}
+
+# Set to true to log messages in json format.
+{% if apm_server_conf_logging_json is defined %}
+logging.json: {{ apm_server_conf_logging_json }}
+{% else %}
+#logging.json:
+{% endif %}
+
+
+#================================ HTTP Endpoint ======================================
+#
+# Each beat can expose internal metrics through a HTTP endpoint. For security
+# reasons the endpoint is disabled by default. This feature is currently experimental.
+# Stats can be access through http://localhost:5066/stats . For pretty JSON output
+# append ?pretty to the URL.
+
+# Defines if the HTTP endpoint is enabled.
+{% if apm_server_conf_http_enabled is defined %}
+http.enabled: {{ apm_server_conf_http_enabled }}
+{% else %}
+#http.enabled:
+{% endif %}
+
+# The HTTP endpoint will bind to this hostname or IP address. It is recommended to use only localhost.
+{% if apm_server_conf_http_host is defined %}
+http.host: {{ apm_server_conf_http_host }}
+{% else %}
+#http.host:
+{% endif %}
+
+# Port on which the HTTP endpoint will bind. Default is 5066.
+{% if apm_server_conf_http_port is defined %}
+http.port: {{ apm_server_conf_http_port }}
+{% else %}
+#http.port:
+{% endif %}
