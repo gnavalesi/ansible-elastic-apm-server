@@ -1,5 +1,4 @@
 ---
-
 - name: restart apm-server
   service:
     name: apm-server
