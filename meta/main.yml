@@ -2,21 +2,21 @@
 galaxy_info:
   author:
     - Guido Navalesi (@gnavalesi)
-  description: Downloads and configure Elastic APM Server
+  description: Download and configure Elastic APM Server
   license: GNU GPLv3
   min_ansible_version: 2
   platforms:
-  - name: Debian
-    versions:
-    - all
-  - name: Ubuntu
-    versions:
-    - all
+    - name: Debian
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
   galaxy_tags:
-    - monitoring
+    - apm
+    - elk
+    - java
     - logging
     - metrics
-    - apm
-    - java
-    - elk
+    - monitoring
 dependencies: []
