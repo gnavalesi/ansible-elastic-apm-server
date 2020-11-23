@@ -22,6 +22,13 @@ apm-server.max_header_size: {{ apm_server_conf_apm_server_max_header_size }}
 #apm-server.max_header_size:
 {% endif %}
 
+# Maximum permitted size of an event accepted by the server to be processed (in Bytes).
+{% if apm_server_conf_apm_server_max_event_size is defined %}
+apm-server.max_event_size: {{ apm_server_conf_apm_server_max_event_size }}
+{% else %}
+apm-server.max_event_size: 307200
+{% endif %}
+
 # Maximum duration request will be queued before being read.
 {% if apm_server_conf_apm_server_max_request_queue_time is defined %}
 apm-server.max_request_queue_time: {{ apm_server_conf_apm_server_max_request_queue_time }}
